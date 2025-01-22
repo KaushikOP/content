@@ -1019,6 +1019,7 @@ Default: yes
 Priority: 1024
 Password-Type: Primary
 Password: {{{ control }}} pam_pwhistory.so remember=24 enforce_for_root try_first_pass use_authtok
+Password-Initial: {{{ control }}} pam_pwhistory.so remember=24 enforce_for_root try_first_pass
 EOF
 fi
 
@@ -1858,7 +1859,7 @@ if [ "$skip" -ne 0 ]; then
         auid_string=$([[ {{{ auid_filters }}} ]] && echo " {{{ auid_filters }}}") || /bin/true
         full_rule="{{{ action_arch_filters }}}${syscall_string}${other_string}${auid_string} -F key={{{ key }}}" || /bin/true
         echo "$full_rule" >> "$default_file"
-        chmod o-rwx ${default_file}
+        chmod 0600 ${default_file}
     else
         # Check if the syscalls are declared as a comma separated list or
         # as multiple -S parameters
@@ -2236,18 +2237,18 @@ for f in $(echo -n "{{{ files }}}"); do
     # find key in section and change value
     if grep -qzosP "[[:space:]]*\[{{{ section }}}\]([^\n\[]*\n+)+?[[:space:]]*{{{ key }}}" "$f"; then
 {{% if no_quotes %}}
-            sed -i "s/{{{ key }}}[^(\n)]*/{{{ key }}}={{{ value }}}/" "$f"
+            sed -i "s/{{{ key }}}[^(\n)]*/{{{ key }}}={{{ value | replace("/", "\/") }}}/" "$f"
 {{% else %}}
-            sed -i 's/{{{ key }}}[^(\n)]*/{{{ key }}}="{{{ value }}}"/' "$f"
+            sed -i 's/{{{ key }}}[^(\n)]*/{{{ key }}}="{{{ value | replace("/", "\/") }}}"/' "$f"
 {{% endif %}}
             found=true
 
     # find section and add key = value to it
     elif grep -qs "[[:space:]]*\[{{{ section }}}\]" "$f"; then
 {{% if no_quotes %}}
-            sed -i "/[[:space:]]*\[{{{ section }}}\]/a {{{ key }}}={{{ value }}}" "$f"
+            sed -i "/[[:space:]]*\[{{{ section }}}\]/a {{{ key }}}={{{ value | replace("/", "\/") }}}" "$f"
 {{% else %}}
-            sed -i '/[[:space:]]*\[{{{ section }}}\]/a {{{ key }}}="{{{ value }}}"' "$f"
+            sed -i '/[[:space:]]*\[{{{ section }}}\]/a {{{ key }}}="{{{ value | replace ("/", "\/") }}}"' "$f"
 {{% endif %}}
             found=true
     fi
