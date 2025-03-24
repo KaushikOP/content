@@ -57,5 +57,5 @@ template:
     yamlpath: "[:]"
     check_existence: "only_one_exists"
     values:
-      - value: "true"
+      - value: "false"
         operation: "equals"
