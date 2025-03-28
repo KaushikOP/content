@@ -3,7 +3,7 @@ title: "All configured ImageStreams are configured to periodically check for upd
 
 description: |-
     <p>
-    Editing for False Condition
+    The False Condition.
     The configuration <tt>imagestream.spec.tags.importPolicy.scheduled</tt>
     determines whether the imagestream is configured to periodically check
     for updates. This is useful when working with an external container
