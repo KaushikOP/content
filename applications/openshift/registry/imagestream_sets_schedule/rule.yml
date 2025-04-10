@@ -33,7 +33,7 @@ references:
     srg: SRG-APP-000456-CTR-001125
 
 {{% set api_path = '/apis/image.openshift.io/v1/imagestreams' %}}
-{{% set jqfilter = '[.items[] | select(( .spec.tags[]?.from.kind != "ImageStreamTag" and ( [.spec.tags[]? | (.importPolicy.scheduled != null and .importPolicy.scheduled != true)] | all )) and ((.metadata.labels == null) or ((.metadata.labels."samples.operator.openshift.io/managed" != null) and (.metadata.labels."samples.operator.openshift.io/managed" == "true" | not))) and ((.metadata.ownerReferences == null) or ((.metadata.ownerReferences[].kind != null) and (.metadata.ownerReferences[].kind != "ClusterVersion")))) | all]' %}}
+{{% set jqfilter = '[.items[] | select(( .spec.tags[]?.from.kind != "ImageStreamTag" and ( [.spec.tags[]? | .importPolicy.scheduled == true ] | all | not )) and ((.metadata.labels == null) or ((.metadata.labels."samples.operator.openshift.io/managed" != null) and (.metadata.labels."samples.operator.openshift.io/managed" == "true" | not))) and ((.metadata.ownerReferences == null) or ((.metadata.ownerReferences[].kind != null) and (.metadata.ownerReferences[].kind != "ClusterVersion")))) | all]' %}}
 
 ocil_clause: 'imagestream is not configured to perform periodical updates'
 
