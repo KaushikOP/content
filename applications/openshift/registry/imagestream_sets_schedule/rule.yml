@@ -33,7 +33,7 @@ references:
     srg: SRG-APP-000456-CTR-001125
 
 {{% set api_path = '/apis/image.openshift.io/v1/imagestreams' %}}
-{{% set jqfilter = '[.items[] | 
+{{% set jqfilter = '[[.items[] | 
         ( .spec.tags[]?.from.kind != "ImageStreamTag"
             and
             (
@@ -60,7 +60,7 @@ references:
             (.metadata.ownerReferences?[].kind == null)
             or
             (isempty(.metadata.ownerReferences?[] | select(.kind == "ClusterVersion")))
-        )] | any' %}}
+        )] | any]' %}}
 
 ocil_clause: 'imagestream is not configured to perform periodical updates'
 
