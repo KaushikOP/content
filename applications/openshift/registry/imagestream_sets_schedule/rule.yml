@@ -83,7 +83,7 @@ template:
     filepath: |-
       {{{ openshift_filtered_path(api_path, jqfilter) }}}
     yamlpath: "[:]"
-    check_existence: "none_exist"
+    check_existence: "only_one_exists"
     values:
       - value: "false"
         operation: "equals"
