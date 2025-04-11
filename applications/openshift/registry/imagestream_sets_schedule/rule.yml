@@ -85,5 +85,5 @@ template:
     yamlpath: "[:]"
     check_existence: "none_exist"
     values:
-      - value: "true"
+      - value: "false"
         operation: "equals"
